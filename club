@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="NTTU,Resume">
+    <meta name="author" content="chun">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="hi.png">
+    <title>我的社團</title>
+
+    <style>
+      body {
+        font-family: "微軟正黑體", sans-serif;
+        background-color: #f7fafc;
+        margin: 0;
+        line-height: 1.8;
+        color: #252525;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2c3e50;
+        padding: 10px 20px;
+      }
+
+      .navbar h2 {
+        color: #ecf0f1;
+        margin: 0;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: #ecf0f1;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .nav-links a:hover {
+        color: #e67e22;
+      }
+
+      .menu-toggle {
+        display: none;
+        font-size: 24px;
+        color: #ecf0f1;
+        cursor: pointer;
+      }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #34495e;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      width: 200px;
+      padding: 10px;
+      border-radius: 0 0 10px 10px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  /* 手機版上下排列 */
+  .image-text, .image-text.reverse {
+    flex-direction: column !important;
+    align-items: center;
+    text-align: center;
+  }
+
+  .image-text img, .image-text.reverse img {
+    margin: 0 0 15px 0 !important;
+  }
+
+  .image-text p, .image-text.reverse p {
+    max-width: 90%;
+  }
+}
+
+      .content {
+        padding: 20px 40px;
+      }
+
+      h1, h2 {
+        color: #243341;
+        margin-bottom: 10px;
+      }
+
+      .image-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .image-text img {
+        border-radius: 10px;
+        width: 300px;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .image-text p {
+        font-size: 16px;
+        max-width: 700px;
+        text-align: justify;
+      }
+
+      .image-text.reverse {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .image-text.reverse img {
+        margin-left: 20px;
+        margin-right: 0;
+        border-radius: 10px;
+        width: 300px;
+        height: auto;
+        flex-shrink: 0;
+      }
+
+      .image-text.reverse p {
+        max-width: 600px;
+        font-size: 16px;
+        text-align: justify;
+      }
+
+      footer {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        text-align: center;
+        padding: 20px 0;
+        margin: 40px 0 0 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a href="index.html"><h2>Jichun</h2></a>
+      <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">主頁</a>
+        <a href="club.html">我的社團</a>
+        <a href="family.html">我的家庭</a>
+        <a href="quiz.html">認識你真好</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <h2>國小 - 音樂班</h2>
+      <div class="image-text">
+        <img src="國小.jpg" alt="國小" width="300px">
+        <p>
+          從國小開始，我就進入了音樂班，主修中提琴、副修鋼琴。這一路走來並不輕鬆，甚至可以說是相當坎坷。
+          因為我們班只有十位同學，人數非常少，隨著年級漸長我們開始要帶學弟妹就更加辛苦。<br><br>
+          但我們大都非常認真，一起練習、互相鼓勵，也讓我體會到音樂的美好與團隊的力量，最終我們也一同畢業一起完成屬於我們的畢業音樂會。<br><br>
+          國小音樂班的學習，奠定了我堅實的音樂基礎，讓我學會堅持與自律，也培養了我對音樂的熱愛與責任感。
+        </p>
+      </div>
+
+      <h2>國中 - 合唱團</h2>
+      <div class="image-text reverse">
+        <img src="國中.jpg" alt="國中"  width="300px">
+        <p>
+          國中時期，我加入了學校的合唱團，還誤打誤撞成為了團長。<br><br>
+          與國小時期的器樂學習不同，合唱讓我更深刻地體會到「傾聽」的重要。<br><br>
+          在練習中，必須仔細聽彼此的聲部、協調音準與情感，這樣的訓練讓我在音樂的表達上更細膩，也學會了團隊合作的精神。
+        </p>
+      </div>
+
+      <h2>高中 - 管樂團</h2>
+      <div class="image-text">
+        <img src="高中.jpg" alt="高中" width="300px">
+        <p>
+          高中時期，我加入了學校的管樂團，一樣是個小而美的團體，但大家喜愛樂器的心更勝音樂班。<br><br>
+          在這裡，我遇到了志同道合的夥伴，也挑戰了從未接觸過的打擊樂器。<br><br>
+          透過不斷練習與演出，我慢慢找回了練團的感覺，也重新體會到音樂合作的樂趣與成就感。
+        </p>
+      </div>
+
+      <h2>大一 - 管樂+打擊樂團</h2>
+      <div class="image-text reverse">
+        <img src="大一.jpg" alt="大一"  width="300px">
+        <p>
+          因為學姊的邀請，我加入了管樂社當槍手，參加了管樂及打擊合奏的全國比賽。
+          雖然練習時間很少，生活也很忙，但每次和大家一起排練，都讓我感受到挑戰與合作的樂趣，也激發了我對音樂的熱情。<br><br>
+          這段經歷不僅鍛鍊了我的技術，也培養了我對音樂的熱情和耐心，讓我在忙碌的大學生活中仍能找到自我挑戰與成長的動力。
+        </p>
+      </div>
+
+      <h2>大學 - 慈青社</h2>
+      <div class="image-text">
+        <img src="大學.jpg" alt="高中" width="300px">
+        <p>
+          參與慈青社的這段時間，連續兩年帶領社團獲得臺東大學綜合性社團評鑑優等第一名，這對我來說不只是榮譽，更是成長的過程。<br><br>
+          透過社團的經營，我學會更有效率地整理文書、歸納資料，也學會如何和不同的人溝通，讓自己的想法表達得更清楚。
+          同時，在活動中從策劃、宣傳到主持，每一個環節都讓我把課堂上學到的東西實際運用出來。<br><br>
+          而慈青社的參與並不只侷限在臺灣，我有機會連續兩年暑假前往馬來西亞沙巴的無國籍村進行人文交流，教導當地學習中心的孩子人文課程，這樣的經驗讓我更深刻體會到「見苦知福」的意涵，也讓我明白服務不是付出，而是一種學習與成長。
+        </p>
+      </div>
+      
+    </div>
+
+    <footer>
+      © 2025 李季錞 Resume. 版權所有
+    </footer>
+
+    <script>
+      function toggleMenu() {
+        const nav = document.getElementById("navLinks");
+        nav.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>
