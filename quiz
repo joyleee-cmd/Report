@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="NTTU,Resume">
+    <meta name="author" content="chun">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="hi.png">
+    <title>你認識我嗎？</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        :root {
+            --primary-color: #27ae60;
+            --bg-color: #f4f7f6;
+        }
+
+        body {
+            font-family: "微軟正黑體", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2c3e50;
+            padding: 10px 20px;
+        }
+        .navbar h2 { color: #ecf0f1; margin: 0; }
+        .navbar a { text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: #ecf0f1; text-decoration: none; font-weight: bold; }
+        .nav-links a:hover { color: #e67e22; }
+
+        .container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            background: #fff;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover { background: var(--primary-color); color: white; }
+        .btn-main { background: var(--primary-color); color: white; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-size: 1.2rem; }
+        
+        .chart-box { width: 100%; height: 350px; margin-top: 20px; }
+        .hidden { display: none; }
+        
+        footer { background: #2c3e50; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html"><h2>Jichun</h2></a>
+        <div class="nav-links">
+            <a href="index.html">主頁</a>
+            <a href="club.html">我的社團</a>
+            <a href="family.html">我的家庭</a>
+            <a href="quiz.html">認識你真好</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="start-page">
+            <h1>🤔 有認識我了嗎？</h1>
+            <p>測驗看看吧~究竟你認不認識季錞！</p>
+            <button class="btn-main" onclick="startQuiz()">開始測驗</button>
+        </div>
+
+        <div id="quiz-page" class="hidden">
+            <h2 id="question-text" class="question-text"></h2>
+            <div id="options-container"></div>
+        </div>
+
+        <div id="result-page" class="hidden">
+            <h1>測驗結果</h1>
+            <h2 id="score-display"></h2>
+            <div id="pie_chart_div" class="chart-box"></div>
+            <hr>
+            <div id="line_chart_div" class="chart-box"></div>
+            <button class="btn-main" onclick="resetQuiz()">重新測驗</button>
+        </div>
+    </div>
+
+    <script>
+        google.charts.load('current', {'packages':['corechart']});
+
+        const questions = [
+            { q: "我家有幾個人？", options: ["6個", "4個", "5個"], correct: 2 },
+            { q: "季錞高中是哪個社團的？", options: ["儀隊", "管樂社", "合唱團"], correct: 1 },
+            { q: "季錞當過以下哪個社團的社長？", options: ["慈青社", "管樂社", "童軍社"], correct: 0 },
+            { q: "慈青社過程中我參與了人文交流感到？", options: ["快快樂樂", "要多吃飯", "見苦之福"], correct: 2 },
+            { q: "參與人文交流我去到？", options: ["菲律賓保和島", "馬來西亞沙巴", "馬來西亞檳城"], correct: 1 },
+            { q: "我現在是個？", options: ["素食者", "葷食者", "雜食性動物"], correct: 0 },
+            { q: "我大學的科系是？", options: ["資管系", "資訊系", "電子系"], correct: 0 },
+            { q: "我國小主修的樂器是？", options: ["小提琴", "中提琴", "大提琴"], correct: 1 },
+            { q: "我國中參加的社團是？", options: ["合唱團", "管樂團", "舞蹈社"], correct: 0 }
+        ];
+
+        let currentQ = 0, score = 0;
+
+        function startQuiz() {
+            currentQ = 0;
+            score = 0;
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const qData = questions[currentQ];
+            const qTextElement = document.getElementById('question-text');
+            const container = document.getElementById('options-container');
+
+            qTextElement.innerText = `第 ${currentQ + 1} 題：${qData.q}`;
+            container.innerHTML = '';
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    if(idx === qData.correct) score++;
+                    currentQ++;
+                    if(currentQ < questions.length) {
+                        showQuestion();
+                    } else {
+                        showResult();
+                    }
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function showResult() {
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+            const percent = Math.round((score / questions.length) * 100);
+            document.getElementById('score-display').innerText = `您的總分：${percent} 分`;
+            drawCharts(percent);
+        }
+
+        function drawCharts(userScore) {
+            const pieData = google.visualization.arrayToDataTable([
+                ['分類', '題數'], 
+                ['正確', score], 
+                ['錯誤', questions.length - score]
+            ]);
+            const pieChart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+            pieChart.draw(pieData, {
+                title: '認識季錞的程度', 
+                colors: ['#27ae60', '#e74c3c'], 
+                pieHole: 0.4,
+                chartArea: {width: '90%', height: '80%'}
+            });
+
+            const lineData = new google.visualization.DataTable();
+            lineData.addColumn('string', '分數');
+            lineData.addColumn('number', '社會分佈');
+            lineData.addColumn('number', '你的位置');
+            
+            const distribution = [
+                {l:'0', v:5}, {l:'20', v:15}, {l:'40', v:30}, 
+                {l:'60', v:35}, {l:'80', v:20}, {l:'100', v:5}
+            ];
+            
+            const closestScore = (Math.round(userScore / 20) * 20).toString();
+            lineData.addRows(distribution.map(d => [d.l, d.v, d.l === closestScore ? d.v : null]));
+
+            const comboChart = new google.visualization.ComboChart(document.getElementById('line_chart_div'));
+            comboChart.draw(lineData, {
+                title: '您對季錞的認識在大家之中的位置',
+                hAxis: {title: '得分 (百分比)'},
+                vAxis: {title: '人數比例', gridlines: {count: 0}},
+                series: { 
+                    0: {type: 'area', color: '#3498db', areaOpacity: 0.1}, 
+                    1: {type: 'scatter', color: '#f1c40f', pointSize: 15} 
+                },
+                chartArea: {width: '80%', height: '70%'},
+                legend: { position: 'bottom' }
+            });
+        }
+
+        function resetQuiz() {
+            currentQ = 0; 
+            score = 0;
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('start-page').classList.remove('hidden');
+        }
+    </script>
+<footer>© 2025 李季錞 Resume. 版權所有</footer>
+</body>
+</html>
